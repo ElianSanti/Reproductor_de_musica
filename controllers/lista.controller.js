@@ -107,23 +107,26 @@ const deleteList = async (req=request, res=response) => {
 //! Parte de las canciones
 const newSong = async (req=request, res=response)=>{
     const nameList = req.params.nameList
+    try {
+        const dbLista = await Lista.findOneAndUpdate(
+            {name:nameList},
+            {$push: {songs:req.body}},
+            {upsert:true, new:true})
+
+        return res.status(200).json({
+            ok:true,
+            msg:'Cancion agregada correctamente'
+        })
+        
+    } catch (error) {
+        return res.status(400).json({
+            ok:false,
+            msg:':La cancion no fue agregada'
+        })
+    }
     
-    const dbLista = await Lista.findOneAndUpdate({name:nameList},{
-        $push: {songs:req.body}
-    },(err, info)=>{
-        if (err) {
-            return res.status(400).json({
-                ok:false,
-                msg:'no se pudo agregar la cancion',
-                err
-            })
-        } else {
-            return res.status(200).json({
-                ok:true,
-                msg:'Canción agregada'
-            })
-        }
-    }).clone().catch(function(err){ console.log(err)})
+    
+    
 }
 
 const viewAllSongs = async(req=request, res=response)=> {
@@ -175,16 +178,47 @@ const viewSong = async(req=request, res=response)=> {
 
 }
 
-const modSong = ()=> {
+const modSong = async (req=request, res=response)=> {
+    const nameList = req.params.nameList;
+    const nameSong = req.params.songTitle;
+    
+    try {
+        const dbList = await Lista.updateOne({name:nameList,"songs.title":nameSong},
+        {$set:{"songs.$":req.body}})
+
+        return res.status(200).json({
+            ok:true,
+            msg:'Cancion actualizada'
+        })
+
+
+    } catch (error) {
+        return res.status(400).json({
+            ok:false,
+            msg:'No se actualizo ninguna cancion',
+            error
+        })
+    }
+}
+
+const deleteSong = async(req=request,res=response)=>{
     const nameList = req.params.nameList;
     const nameSong = req.params.songTitle;
 
-    const dbList = Lista.find({nombre:nameList}) 
-
-}
-
-const deleteSong = ()=>{
-
+    const dbList = await Lista.findOneAndDelete({name:nameList,"songs.title":nameSong},
+        (err)=>{
+            if (err) {
+                return res.status(400).json({
+                    ok:false,
+                    err
+                })
+            } else {
+                return res.status(200).json({
+                    ok:true,
+                    msg:'Cancion eliminada!'
+                })
+            }
+        }).clone().catch(function(err){ console.log(err)})
 }
 
 module.exports = {
