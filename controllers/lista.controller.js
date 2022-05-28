@@ -201,24 +201,27 @@ const modSong = async (req=request, res=response)=> {
     }
 }
 
-const deleteSong = async(req=request,res=response)=>{
+const deleteSong = (req=request,res=response)=>{
     const nameList = req.params.nameList;
     const nameSong = req.params.songTitle;
 
-    const dbList = await Lista.findOneAndDelete({name:nameList,"songs.title":nameSong},
-        (err)=>{
+    Lista.updateOne({name:nameList},
+        {$pull:{"songs":{title:nameSong}}},
+        (err,doc)=>{
             if (err) {
                 return res.status(400).json({
                     ok:false,
-                    err
+                    msg:'No se elimino nada'
                 })
             } else {
                 return res.status(200).json({
                     ok:true,
-                    msg:'Cancion eliminada!'
+                    msg:'Cancion eliminada'
                 })
             }
         }).clone().catch(function(err){ console.log(err)})
+    
+    
 }
 
 module.exports = {
