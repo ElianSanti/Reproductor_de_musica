@@ -6,7 +6,7 @@ require('dotenv').config();
 const app = express();
 
 //Cors
-app.use(cors())
+app.use(cors());
 
 //conversion de datos a json
 app.use( express.json() );

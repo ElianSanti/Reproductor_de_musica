@@ -21,6 +21,12 @@ const ListaSchema = Schema({
             },
             year:{
                 type: String
+            },
+            img:{
+                type: String
+            },
+            url:{
+                type:String
             }
         }
     ]
