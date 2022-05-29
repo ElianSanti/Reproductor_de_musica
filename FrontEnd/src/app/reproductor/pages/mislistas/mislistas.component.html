@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="row">
+        <h1 class="text-light">Mis listas de reproduccion</h1>
+        <hr>
+    </div>
+    <div class="row">
+        <h4 class="text-light">Buscar lista de reproduccion</h4>
+        <app-buscador (onDebounce)="buscarLista($event)"></app-buscador>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-12 col-md-6 my-3" *ngFor="let lista of listas;let i=index">
+            <div class="card w-75">
+                <div class="card-body">
+                <h5 class="card-title">{{lista.name}}</h5>
+                <p class="card-text">{{lista.description}}</p>
+                <div class="d-flex justify-content-between">
+                    <a (click)="eliminarLista(lista.name,i)" class="btn btn-primary">Eliminar lista</a>
+                    <a [routerLink]="['/reproductor/modificar', lista.name]" class="btn btn-primary">Modificar lista</a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

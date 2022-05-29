@@ -1,0 +1,10 @@
+.logo{
+    height: 50%;
+    width:  50%;
+    cursor: pointer;
+}
+.icon{
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}

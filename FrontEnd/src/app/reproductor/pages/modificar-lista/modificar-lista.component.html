@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row">
+        <h1 class="text-light">Modificar lista</h1>
+        <hr>
+    </div>
+    <form autocomplete="off" (submit)="guardar()">
+        <div class="row justify-content-between">
+            <div class="col-3">
+                <h5 class="text-light">Nombre</h5>
+                <input type="text" class="form-control" [value]="lista.name">
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col-3">
+                <h5 class="text-light">Descripcion</h5>
+                <textarea name="" id="" cols="30" rows="3" class="form-control" [value]="lista.description"></textarea>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-5">
+                <h5 class="text-light">Agregar cancion</h5>
+                <app-buscador (onDebounce)="sugerencias($event)"></app-buscador>
+            </div>
+            <div class="col align-self-end">
+                <button class="btn btn-light">Guardar lista</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <ul class="list-group" *ngIf="termino.length > 0">
+                    <li class="list-group-item list-group-item-action" *ngFor="let sugerencia of cancionesSug">
+                        <a (click)="addSong(sugerencia.name,sugerencia.artist_name,sugerencia.album_name,sugerencia.releasedate,sugerencia.image,sugerencia.audio)" class="nav-link">{{sugerencia.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Canciones -->
+        <div class="row">
+            <h5 class="text-light">Canciones</h5>
+            <div class="col-md-6 my-3" *ngFor="let song of songs; let i = index">
+                <div class="card" style="width: 18rem;">
+                    <img [src]="song.img" class="card-img-top" alt="...">
+                    <div class="card-body">
+                    <p class="card-text">{{song.title}}</p>
+                    <div class="d-flex justify-content-between gap-2">
+                        <button (click)="eliminarCancion(song.title, i)" class="btn btn-dark">Eliminar cancion</button>
+                        <button [routerLink]="['/reproductor/modcancion/', rute,song.title]" class="btn btn-dark">Editar cancion</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

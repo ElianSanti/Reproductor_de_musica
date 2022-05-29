@@ -1,0 +1,22 @@
+<div class="contaiter">
+    <div class="row">
+        <div class="col">
+            <h5 class="text-light">Buscar canciones</h5>
+            <app-buscador (onDebounce)="buscarCanciones($event)"></app-buscador>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-4 my-3" *ngFor="let cancion of canciones">
+            <div class="card bg-dark text-white">
+                <img [src]="cancion.image" class="card-img" alt="...">
+                <div class="card-img-overlay">
+                <h5 class="card-title">{{cancion.name}}</h5>
+                <p class="card-text">Artista: {{cancion.artist_name}}</p>
+                <p class="card-text">Fecha de salida {{cancion.releasedate}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
